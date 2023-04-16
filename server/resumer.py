@@ -3,8 +3,7 @@ import whisper
 import openai
 from pytube import YouTube
 
-# API_KEY = os.environ['API_KEY']
-API_KEY = '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'
+API_KEY = os.environ['API_KEY']
 WHISPER_MODEL_NAME = 'base'
 
 

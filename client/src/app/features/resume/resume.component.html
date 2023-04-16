@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="card">
+        <h1>Resumo de Vídeo</h1>
+        <div class="form-group">
+            <label for="video-url">Insira a URL do vídeo:</label>
+            <input type="text" class="form-control" id="video-url" [(ngModel)]="videoUrl">
+            <button class="btn btn-primary" (click)="getResume(videoUrl)">Resumir</button>
+        </div>
+        <div *ngIf="resume">
+            <h2>Resumo do seu vídeo:</h2>
+            <p>{{resume}}</p>
+        </div>
+    </div>
+</div>

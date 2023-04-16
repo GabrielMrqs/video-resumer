@@ -1,39 +1,14 @@
-import os
-import whisper
-import openai
-from pytube import YouTube
+from flask import Flask, jsonify, render_template
+from resumer import Resumer
 
-API_KEY = os.environ['API_KEY']
-WHISPER_MODEL_NAME = 'base'
+resumer = Resumer()
+app = Flask(__name__)
 
-openai.api_key = API_KEY
 
-link = 'https://www.youtube.com/watch?v=H1HdZFgR-aA'
+@app.route('/api/resume/<string:video_url>', methods=['GET'])
+def hello_world(video_url):
+    return resumer.resume_video(video_url)
 
-yt = YouTube(link)
 
-stream = yt.streams.get_audio_only()
-
-file_path = stream.download(filename='video.mp4')
-
-model = whisper.load_model(WHISPER_MODEL_NAME)
-
-result = model.transcribe(file_path)
-
-text = result['text']
-
-os.remove(file_path)
-
-response_chat_gpt = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "Você resume textos em português"},
-        {"role": "user", "content": text},
-    ]
-)
-
-response = ''
-for choice in response_chat_gpt.choices:
-    response += choice.message.content
-
-print(response)
+if __name__ == '__main__':
+    app.run()
